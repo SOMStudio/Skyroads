@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class AnimationOpenClose : MonoBehaviour {
 
@@ -10,6 +9,7 @@ public class AnimationOpenClose : MonoBehaviour {
 
 	private Animator animator;
 
+	// main event
 	void Awake () {
 		animator = GetComponent<Animator> ();
 
@@ -18,6 +18,7 @@ public class AnimationOpenClose : MonoBehaviour {
 		}
 	}
 
+	// main logic
 	public void Click () {
 		if (IsOpen()) {
 			Close ();

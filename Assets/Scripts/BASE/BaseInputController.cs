@@ -1,20 +1,19 @@
 using UnityEngine;
-using System.Collections;
 
 [AddComponentMenu("Base/Input Controller")]
 
 public class BaseInputController : MonoBehaviour {
 	
-	// directional buttons
+	[Header("Directional")]
 	public bool Up;
 	public bool Down;
 	public bool Left;
 	public bool Right;
-	
-	// fire / action buttons
+
+	[Header("Fire")]
 	public bool Fire1;
-	
-	// weapon slots
+
+	[Header("Weapon Slot")]
 	public bool Slot1;
 	public bool Slot2;
 	public bool Slot3;
@@ -24,19 +23,17 @@ public class BaseInputController : MonoBehaviour {
 	public bool Slot7;
 	public bool Slot8;
 	public bool Slot9;
-	
+
+	[Header("Shift dir")]
 	public float vert;
 	public float horz;
 	public bool shouldRespawn;
 	
-	public Vector3 TEMPVec3;
-	private Vector3 zeroVector = new Vector3(0,0,0);
-	
-	public virtual void CheckInput ()
+	protected virtual void CheckInput ()
 	{	
 		// override with your own code to deal with input
-		horz=Input.GetAxis ("Horizontal");
-		vert=Input.GetAxis ("Vertical");
+		horz = Input.GetAxis ("Horizontal");
+		vert = Input.GetAxis ("Vertical");
 	}
 	
 	public virtual float GetHorizontal()
@@ -63,14 +60,13 @@ public class BaseInputController : MonoBehaviour {
 	
 	public virtual Vector3 GetMovementDirectionVector()
 	{
-		// temp vector for movement dir gets set to the value of an otherwise unused vector that always have the value of 0,0,0
-		TEMPVec3=zeroVector;
+		var res = Vector3.zero;
 		
-		TEMPVec3.x=horz;
-		TEMPVec3.y=vert;
+		res.x = horz;
+		res.y = vert;
 
 		// return the movement vector
-		return TEMPVec3;
+		return res;
 	}
 
 }

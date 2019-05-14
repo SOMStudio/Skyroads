@@ -3,25 +3,21 @@ using System.Collections;
 
 public class Rotator : ExtendedCustomMonoBehaviour {
 
-	public float angleSpeedMin;
-	public float angleSpeedMax;
+	public Vector3 direction = Vector3.forward;
+	public float speed = 5f;
 
-	void Start () {
-		// chack for init
-		if (!didInit) {
-			Init ();
-		}
+	// main logic
 
-		//get random Ranges
-		float anleSpeed = Random.Range (angleSpeedMin, angleSpeedMax);
-		var velocityDirection = new Vector3(Random.Range(-1,1), Random.Range(-1,1), Random.Range(-1,1));
+	public override void Init() {
+		// init base
+		base.Init ();
 
-		//calculate rotate
-		myBody.angularVelocity = velocityDirection * anleSpeed;
+		// rotate object
+		UpdateVelocity ();
 	}
 
-	public override void Init ()
-	{
-		base.Init ();
+	public void UpdateVelocity() {
+		//calculate rotate
+		myBody.angularVelocity = direction * speed;
 	}
 }

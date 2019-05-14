@@ -1,22 +1,28 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 public class GameController_SkyRoads : BaseGameController {
 
 	public bool developState = false;
 
 	[Header("Main Settings")]
-	public int globalSpeedGame = 10;
-	public int secondIncreaseComplexity = 60;
+	[SerializeField]
+	private int globalSpeedGame = 10;
+	[SerializeField]
+	private int secondIncreaseComplexity = 60;
 
 	private int lastIncreaseCopmlexity = 0;
 
 	[Header("Spawn Settings")]
-	public int spawnCount = 5;
-	public float startWait = 3.0f;
-	public float waveDelay = 3.0f;
-	public float objectDelay = 1.0f;
-	public float minDistanceBetweenObject = 2.0f;
+	[SerializeField]
+	private int spawnCount = 5;
+	[SerializeField]
+	private float startWait = 3.0f;
+	[SerializeField]
+	private float waveDelay = 3.0f;
+	[SerializeField]
+	private float objectDelay = 1.0f;
+	[SerializeField]
+	private float minDistanceBetweenObject = 2.0f;
 
 	private float time = 0.0f;
 	private float timeOneSecond = 0.0f;
@@ -28,8 +34,10 @@ public class GameController_SkyRoads : BaseGameController {
 	private bool objectDelayPassed = false;
 
 	[Header("Bonuse Settings")]
-	public int countScoreForAsteroid = 5;
-	public int countScoreForSecont = 1;
+	[SerializeField]
+	private int countScoreForAsteroid = 5;
+	[SerializeField]
+	private int countScoreForSecont = 1;
 
 	private int score = 0;
 	private int avoidAsteroid = 0;
@@ -40,7 +48,8 @@ public class GameController_SkyRoads : BaseGameController {
 	private bool timeBestNew = false;
 
 	[Header("Boost Settings")]
-	public float multForBoostSpeed = 2.0f;
+	[SerializeField]
+	private float multForBoostSpeed = 2.0f;
 
 	private TimerClass timerLevel;
 
@@ -52,13 +61,20 @@ public class GameController_SkyRoads : BaseGameController {
 	public static GameController_SkyRoads Instance;
 
 	[Header("Managers")]
-	public MenuManager_SkyRoads menuMenager;
-	public PlayerManager_SkyRoads playerManager;
-	public BaseTopDownSpaceShip controlManager;
-	public LevelManager_SkyRoads levelManager;
-	public BaseSoundController soundManager;
-	public BaseMusicController musicManager;
+	[SerializeField]
+	private MenuManager_SkyRoads menuMenager;
+	[SerializeField]
+	private PlayerManager_SkyRoads playerManager;
+	[SerializeField]
+	private BaseTopDownSpaceShip controlManager;
+	[SerializeField]
+	private LevelManager_SkyRoads levelManager;
+	[SerializeField]
+	private BaseSoundController soundManager;
+	[SerializeField]
+	private BaseMusicController musicManager;
 
+	// main event
 	void Awake() {
 		// activate instance
 		if (Instance == null) {
@@ -106,6 +122,7 @@ public class GameController_SkyRoads : BaseGameController {
 		}
 	}
 
+	// main logic
 	void Init() {
 		// activate instance
 		if (Instance == null) {
@@ -178,6 +195,14 @@ public class GameController_SkyRoads : BaseGameController {
 			PauseGameInvert ();
 		}
 	}
+
+	public int GlobalSpeedGame { get { return globalSpeedGame; } }
+
+	public float MultForBoostSpeed { get { return multForBoostSpeed; } }
+
+	public int CountScoreForAsteroid { get { return countScoreForAsteroid; } }
+
+	public float MinDistanceBetweenObject { get { return minDistanceBetweenObject; } }
 
 	//Menu Manager
 	public void WindowAdviceShowText(string textVal, int timeVal = 0) {
@@ -322,9 +347,9 @@ public class GameController_SkyRoads : BaseGameController {
 
 			// add bonuses
 			if (IsBoostSpeed ()) {
-				AddScore (2);
+				AddScore (2 * countScoreForSecont);
 			} else {
-				AddScore (1);
+				AddScore (countScoreForSecont);
 			}
 		}
 

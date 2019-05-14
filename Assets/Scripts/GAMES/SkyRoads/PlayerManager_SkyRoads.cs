@@ -1,15 +1,23 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class PlayerManager_SkyRoads : BasePlayerManager {
 
-	public UserManager_SkyRoads DataManager_New;
+	public UserManager_SkyRoads DataManager_SkyRoads {
+		get { return (UserManager_SkyRoads)DataManager; }
+		set { DataManager = value; }
+	}
 
 	[System.NonSerialized]
 	public static PlayerManager_SkyRoads Instance;
 
-	// override
-	public override void Awake ()
+	// main event
+	void Start () {
+		// keep this object alive
+		DontDestroyOnLoad (this.gameObject);
+	}
+
+	// main logic
+	public override void Init ()
 	{
 		// activate instance
 		if (Instance == null) {
@@ -22,31 +30,14 @@ public class PlayerManager_SkyRoads : BasePlayerManager {
 		}
 	}
 
-	public void Start () {
-		if (!didInit)
-			Init ();
-	}
-
-	public override void Init ()
-	{
-		// cache ref to our user manager
-		DataManager_New= gameObject.GetComponent<UserManager_SkyRoads>();
-
-		if(DataManager_New==null)
-			DataManager_New= gameObject.AddComponent<UserManager_SkyRoads>();
-
-		// do play init things in this function
-		didInit= true;
-	}
-
 	public override void GameFinished ()
 	{
-		DataManager_New.SetIsFinished (true);
+		DataManager_SkyRoads.SetIsFinished (true);
 	}
 
 	public override void GameStart ()
 	{
-		DataManager_New.SetIsFinished (false);
+		DataManager_SkyRoads.SetIsFinished (false);
 	}
 
 	//
@@ -54,76 +45,76 @@ public class PlayerManager_SkyRoads : BasePlayerManager {
 		if (!didInit)
 			Init ();
 
-		DataManager_New.GetDefaultData ();
+		DataManager_SkyRoads.GetDefaultData ();
 	}
 
 	public void SetPlayerName(string stVal) {
-		DataManager_New.SetName (stVal);
+		DataManager_SkyRoads.SetName (stVal);
 	}
 
 	public string GetPlayerName() {
-		return DataManager_New.GetName ();
+		return DataManager_SkyRoads.GetName ();
 	}
 
 	public void SetLevel(int itVal) {
-		DataManager_New.SetLevel (itVal);
+		DataManager_SkyRoads.SetLevel (itVal);
 	}
 
 	public int GetLevel() {
-		return DataManager_New.GetLevel ();
+		return DataManager_SkyRoads.GetLevel ();
 	}
 
 	public void SetScore(int itVal) {
-		DataManager_New.SetScore (itVal);
+		DataManager_SkyRoads.SetScore (itVal);
 	}
 
 	public int GetScore() {
-		return DataManager_New.GetScore ();
+		return DataManager_SkyRoads.GetScore ();
 	}
 
 	//============
 
 	public int GetScoreBest()
 	{
-		return DataManager_New.GetScoreBest ();
+		return DataManager_SkyRoads.GetScoreBest ();
 	}
 
 	public void SetScoreBest(int num)
 	{
-		DataManager_New.SetScoreBest (num);
+		DataManager_SkyRoads.SetScoreBest (num);
 	}
 
 	public int GetTimeBest()
 	{
-		return DataManager_New.GetTimeBest ();
+		return DataManager_SkyRoads.GetTimeBest ();
 	}
 
 	public void SetTimeBest(int num)
 	{
-		DataManager_New.SetTimeBest (num);
+		DataManager_SkyRoads.SetTimeBest (num);
 	}
 
 	public int GetAsteroidBest()
 	{
-		return DataManager_New.GetAsteroidBest ();
+		return DataManager_SkyRoads.GetAsteroidBest ();
 	}
 
 	public void SetAsteroidBest(int num)
 	{
-		DataManager_New.SetAsteroidBest (num);
+		DataManager_SkyRoads.SetAsteroidBest (num);
 	}
 
 	//============
 
 	public void LoadPrivateDataPlayer() {
-		DataManager_New.LoadPrivateDataPlayer ();
+		DataManager_SkyRoads.LoadPrivateDataPlayer ();
 	}
 
 	public void SavePrivateDataPlayer() {
-		DataManager_New.SavePrivateDataPlayer ();
+		DataManager_SkyRoads.SavePrivateDataPlayer ();
 	}
 
 	public void ClosePrivateDataPlayerFile() {
-		DataManager_New.ClosePlayerDateFile ();
+		DataManager_SkyRoads.ClosePlayerDateFile ();
 	}
 }

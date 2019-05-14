@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 [AddComponentMenu("Base/GameController")]
 
@@ -16,7 +15,9 @@ public class BaseGameController : MonoBehaviour
 	//[HideInInspector] public int varIntPublic; //Hide in editor the public parrametr
 
 	bool paused;
-	public GameObject explosionPrefab;
+
+	[SerializeField]
+	protected GameObject explosionPrefab;
 	
 	public virtual void PlayerLostLife ()
 	{

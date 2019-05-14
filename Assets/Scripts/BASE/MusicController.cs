@@ -5,10 +5,9 @@ public class MusicController : MonoBehaviour {
 
 	public string gamePrefsName= "DefaultGame"; // DO NOT FORGET TO SET THIS IN THE EDITOR!!
 
+	[Range(0, 1)]
 	public float volume;
-
 	public AudioClip music;
-	
 	public bool loopMusic;
 	
 	private AudioSource source;
@@ -20,9 +19,10 @@ public class MusicController : MonoBehaviour {
 	private float volumeON;
 	private float targetVolume;
 
-	public float fadeTime=15f;
-	public bool shouldFadeInAtStart= true;
+	public float fadeTime = 15f;
+	public bool shouldFadeInAtStart = true;
 
+	// main event
 	void Start ()
 	{
 		// we will grab the volume from PlayerPrefs when this script first starts
@@ -40,6 +40,7 @@ public class MusicController : MonoBehaviour {
 		source.playOnAwake= true;
 		source.clip= music;
 		source.volume= volume;
+		DontDestroyOnLoad (sourceGO);
 
 		// the script will automatically fade in if this is set
 		if(shouldFadeInAtStart)
@@ -80,6 +81,7 @@ public class MusicController : MonoBehaviour {
 		}
 	}
 
+	// main logic
 	public void UpdateVolume ( float fadeAmount = 2f ) {
 		if (source) {
 			volume = source.volume;

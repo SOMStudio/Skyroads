@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RoadManager_SkyRoads : MonoBehaviour {
 
@@ -8,37 +6,44 @@ public class RoadManager_SkyRoads : MonoBehaviour {
 	private bool speedBoost = false;
 
 	[Header("Settings")]
-	public int multiplierSpeed = 1;
+	[SerializeField]
+	private int multiplierSpeed = 1;
 
 	[Header("Managers")]
-	public BGScroller bgScroller;
-	public GameController_SkyRoads gameController;
+	[SerializeField]
+	private BGScroller bgScroller;
+	[SerializeField]
+	private GameController_SkyRoads gameController;
 
+	// main event
 	void Start () {
 		Init ();
 	}
 
 	void LateUpdate () {
+		int globalSpeedGame = gameController.GlobalSpeedGame;
+
 		// update speed
-		if ((bgScroller.scrollSpeed * multiplierSpeed) != gameController.globalSpeedGame) {
-			bgScroller.scrollSpeed = gameController.globalSpeedGame * multiplierSpeed;
+		if ((bgScroller.scrollSpeed * multiplierSpeed) != globalSpeedGame) {
+			bgScroller.scrollSpeed = globalSpeedGame * multiplierSpeed;
 		}
 
 		// update speed boost
 		bool speedBoostGC = gameController.IsBoostSpeed ();
 		if (speedBoostGC) {
 			if (!speedBoost) {
-				bgScroller.scrollSpeed *= gameController.multForBoostSpeed;
+				bgScroller.scrollSpeed *= globalSpeedGame;
 				speedBoost = true;
 			}
 		} else {
 			if (speedBoost) {
-				bgScroller.scrollSpeed /= gameController.multForBoostSpeed;
+				bgScroller.scrollSpeed /= globalSpeedGame;
 				speedBoost = false;
 			}
 		}
 	}
 
+	// main logic
 	void Init() {
 		if (!gameController) {
 			gameController = GameController_SkyRoads.Instance;

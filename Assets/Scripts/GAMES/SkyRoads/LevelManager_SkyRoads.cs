@@ -1,37 +1,47 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LevelManager_SkyRoads : MonoBehaviour {
 
 	[Header("Asteroids")]
-	public GameObject spawn_1;
-	public GameObject spawn_2;
-	public GameObject spawn_3;
-	public Transform spawnPosition;
+	[SerializeField]
+	private GameObject spawn_1;
+	[SerializeField]
+	private GameObject spawn_2;
+	[SerializeField]
+	private GameObject spawn_3;
+	[SerializeField]
+	private Transform spawnPosition;
 
 	private Vector3 prevPosSpawn = Vector3.zero;
 
 	[Header("Smooth Follow")]
-	public FallowTarget smoothFollow;
-	public float increaseDistance = 5;
-	public float increaseHeigh = 2;
+	[SerializeField]
+	private FallowTarget smoothFollow;
+	[SerializeField]
+	private float increaseDistance = 5;
+	[SerializeField]
+	private float increaseHeigh = 2;
 
 	[Header("Boost Speed Environment")]
-	public GameObject boostSpeedParticles;
+	[SerializeField]
+	private GameObject boostSpeedParticles;
 
 	[Header("Boost Speed Player")]
-	public GameObject boostSpeedTrailLeft;
-	public GameObject boostSpeedTrailRight;
+	[SerializeField]
+	private GameObject boostSpeedTrailLeft;
+	[SerializeField]
+	private GameObject boostSpeedTrailRight;
 
 	private bool speedBoost = false;
 
 	[Header("Game Controller Ref")]
-	public GameController_SkyRoads gameController;
+	[SerializeField]
+	private GameController_SkyRoads gameController;
 
 	[System.NonSerialized]
 	public static LevelManager_SkyRoads Instance;
 
+	// main event
 	void Awake () {
 		// activate instance
 		if (Instance == null) {
@@ -71,7 +81,8 @@ public class LevelManager_SkyRoads : MonoBehaviour {
 		bool findProblem = false;
 
 		float distance = Vector3.Distance(resPos, prevPosSpawn);
-		if (distance <= gameController.minDistanceBetweenObject)
+		float minDistanceBetweenObject = gameController.MinDistanceBetweenObject;
+		if (distance <= minDistanceBetweenObject)
 		{
 			findProblem = true;
 		}

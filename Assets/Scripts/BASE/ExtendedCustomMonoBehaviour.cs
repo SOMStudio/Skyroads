@@ -1,25 +1,32 @@
 using UnityEngine;
-using System.Collections;
 
 public class ExtendedCustomMonoBehaviour : MonoBehaviour 
-{
-	// This class is used to add some common variables to MonoBehaviour, rather than
-	// constantly repeating the same declarations in every class.
-	public Transform myTransform;
-	public GameObject myGO;
-	public Rigidbody myBody;
+{	
+	[Header("Base")]
+	[SerializeField]
+	protected bool didInit;
+	[SerializeField]
+	protected bool canControl;
 	
-	public bool didInit;
-	public bool canControl;
-	
-	public int id;
-	
-	[System.NonSerialized]
-	public Vector3 tempVEC;
-	
-	[System.NonSerialized]
-	public Transform tempTR;
+	protected int id;
 
+	protected Transform myTransform;
+	protected GameObject myGO;
+	protected Rigidbody myBody;
+
+	protected Vector3 tempVEC;
+	protected Transform tempTR;
+
+	// main events
+	void Start() {
+		Init();
+	}
+
+	// main logic
+
+	/// <summary>
+	/// Init main instance (myTransform, myGO, myBody), def. in Start.
+	/// </summary>
 	public virtual void Init() {
 		// cache refs to our transform and gameObject
 		if (!myTransform) {

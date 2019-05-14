@@ -4,24 +4,31 @@ using System.Collections;
 
 public class MenuManager_SkyRoads : BaseMenuController {
 
-	public bool overMenuUI = true;
+	[SerializeField]
+	private bool overMenuUI = true;
 
 	[Header("Game Settings")]
-	public string namePlayerVal = "Anonim";
-	public InputField namePlayer;
+	[SerializeField]
+	private string namePlayerVal = "Anonim";
+	[SerializeField]
+	private InputField namePlayer;
 
 	[Header("Window Result")]
-	public Text[] windowResultTextList;
+	[SerializeField]
+	private Text[] windowResultTextList;
 
 	[Header("Developer")]
-	public GameObject[] developList;
+	[SerializeField]
+	private GameObject[] developList;
 
 	[Header("Game Controller Ref")]
-	public GameController_SkyRoads gameController;
+	[SerializeField]
+	private GameController_SkyRoads gameController;
 
 	[System.NonSerialized]
 	public static MenuManager_SkyRoads Instance;
 
+	// main event
 	void Awake() {
   		// activate instance
 		if (Instance == null) {
@@ -42,13 +49,14 @@ public class MenuManager_SkyRoads : BaseMenuController {
 		}
 	}
 
-	public override void RestoreOptionsPref() {
+	// main logic
+	protected override void RestoreOptionsPref() {
 		base.RestoreOptionsPref ();
 
 		StartCoroutine ("RestoreOptionsPrefGame_Coroutine");
 	}
 
-	public IEnumerator RestoreOptionsPrefGame_Coroutine() {
+	private IEnumerator RestoreOptionsPrefGame_Coroutine() {
 		didInit = false;
 		bool prefubInit = false;
 
@@ -80,7 +88,7 @@ public class MenuManager_SkyRoads : BaseMenuController {
 		}
 	}
 
-	public override void ExitGame ()
+	protected override void ExitGame ()
 	{
 		gameController.SaveDataLevel ();
 
@@ -94,14 +102,14 @@ public class MenuManager_SkyRoads : BaseMenuController {
 		ActivateConsoleWindow (2);
 	}
 
-	public override void SaveOptionsPrefs ()
+	protected override void SaveOptionsPrefs ()
 	{
 		base.SaveOptionsPrefs ();
 
 		StartCoroutine ("SaveOptionsPrefsGame_Coroutine");
 	}
 
-	public IEnumerator SaveOptionsPrefsGame_Coroutine ()
+	private IEnumerator SaveOptionsPrefsGame_Coroutine ()
 	{
 		yield return null;
 
@@ -111,27 +119,27 @@ public class MenuManager_SkyRoads : BaseMenuController {
 		yield return null;
 	}
 
-	//event menu
-	public override void ActivateMenuEvent() {
+	#region Events
+	protected override void ActivateMenuEvent() {
 		
 	}
 
-	public override void DisActivateMenuEvent() {
+	protected override void DisActivateMenuEvent() {
 		//play sound button-click
 		gameController.PlaySoundByIndex (2, transform.position);
 	}
 
-	public override void ChancheMenuEvent(int number) {
+	protected override void ChancheMenuEvent(int number) {
 		//play sound button-click
 		gameController.PlaySoundByIndex (1, transform.position);
 	}
 
-	public override void ActivateWindowEvent() {
+	protected override void ActivateWindowEvent() {
 		//play sound button-click
 		gameController.PlaySoundByIndex (1, transform.position);
 	}
 
-	public override void DisActivateWindowEvent() {
+	protected override void DisActivateWindowEvent() {
 		//play sound button-click
 		gameController.PlaySoundByIndex (2, transform.position);
 
@@ -142,7 +150,7 @@ public class MenuManager_SkyRoads : BaseMenuController {
 		}
 	}
 
-	public override void ChancheWindowEvent(int number) {
+	protected override void ChancheWindowEvent(int number) {
 		if (windowActive == 1) {
 
 		} else {
@@ -150,7 +158,7 @@ public class MenuManager_SkyRoads : BaseMenuController {
 		}
 	}
 
-	public override void ActivateConsoleWEvent ()
+	protected override void ActivateConsoleWEvent ()
 	{
 		//play sound button-click
 		gameController.PlaySoundByIndex (1, transform.position);
@@ -158,7 +166,7 @@ public class MenuManager_SkyRoads : BaseMenuController {
 		gameController.PauseGame ();
 	}
 
-	public override void DisActivateConsoleWEvent ()
+	protected override void DisActivateConsoleWEvent ()
 	{
 		//play sound button-click
 		gameController.PlaySoundByIndex (2, transform.position);
@@ -166,24 +174,25 @@ public class MenuManager_SkyRoads : BaseMenuController {
 		gameController.ResumeGame ();
 	}
 
-	public override void ChancheConsoleWEvent(int number) {
+	protected override void ChancheConsoleWEvent(int number) {
 
 	}
+	#endregion
 
 	// main part
-	public void OverUI() {
+	private void OverUI() {
 		overMenuUI = true;
 	}
 
-	public void OutUI() {
+	private void OutUI() {
 		overMenuUI = false;
 	}
 
-	public void ActivateMenu_Level() {
+	private void ActivateMenu_Level() {
 		ActivateMenu (1);
 	}
 
-	public void ChangeGraficVal_PostEffect(float val) {
+	private void ChangeGraficVal_PostEffect(float val) {
 //		if (gameController.CameraControlData != null) {
 //			gameController.CameraControlData.CollorCorrectionOn ();
 //			gameController.CameraControlData.BloomOn ();
@@ -247,7 +256,7 @@ public class MenuManager_SkyRoads : BaseMenuController {
 	}
 
 	// actions
-	public void ConsoleWinYesNo_ActionCloseGame() {
+	private void ConsoleWinYesNo_ActionCloseGame() {
 		ConsoleWinYesNo_SetTxt ("Do you want to Exit?");
 		ConsoleWinYesNo_SetYesAction (ExitGame);
 	}

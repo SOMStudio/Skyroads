@@ -8,10 +8,19 @@ public class BaseMusicController : MonoBehaviour {
 	[System.NonSerialized]
 	public static BaseMusicController Instance;
 
-	public void Awake()
+	// main event
+
+	void Awake()
 	{
 		Init ();
 	}
+
+	void Start() {
+		// keep this object alive
+		DontDestroyOnLoad (this.gameObject);
+	}
+
+	// main logic
 
 	public void Init() {
 		// activate instance

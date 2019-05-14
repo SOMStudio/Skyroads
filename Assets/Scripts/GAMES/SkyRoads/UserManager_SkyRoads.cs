@@ -1,21 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-
-[System.Serializable]
-class PlayerData_SkyRoads
-{
-	public string playerName;
-
-	public int score;
-	public int level;
-	public int helth;
-
-	public int scoreBest;
-	public int timeBest;
-	public int asteroidBest;
-}
 
 public class UserManager_SkyRoads : BaseUserManager {
 	
@@ -128,4 +113,18 @@ public class UserManager_SkyRoads : BaseUserManager {
 			GetDefaultData ();
 		}
 	}
+}
+
+[System.Serializable]
+class PlayerData_SkyRoads
+{
+	public string playerName;
+
+	public int score;
+	public int level;
+	public int helth;
+
+	public int scoreBest;
+	public int timeBest;
+	public int asteroidBest;
 }

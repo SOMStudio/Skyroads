@@ -2,24 +2,21 @@
 using System.Collections;
 
 public class Mover : ExtendedCustomMonoBehaviour {
-	public float speed;
 
-	void Start () {
-		// chack for init
-		if (!didInit) {
-			Init ();
-		}
+	public Vector3 direction = Vector3.forward;
+	public float speed = 5f;
 
-		//calculate move
+	// main logic
+
+	public override void Init () {
+		// init base
+		base.Init ();
+
+		// move object
 		UpdateVelocity ();
 	}
 
-	public override void Init ()
-	{
-		base.Init ();
-	}
-
 	public void UpdateVelocity() {
-		myBody.velocity = Vector3.forward * speed;
+		myBody.velocity = direction * speed;
 	}
 }

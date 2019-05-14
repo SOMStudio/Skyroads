@@ -1,53 +1,28 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 [AddComponentMenu("Base/Sound Controller")]
 
-public class SoundObject
-{
-	public AudioSource source;
-	public GameObject sourceGO;
-	public Transform sourceTR;
-	
-	public AudioClip clip;
-	public string name;
-			
-	public SoundObject(AudioClip aClip, string aName, float aVolume)
-	{
-		// in this (the constructor) we create a new audio source and store the details of the sound itself
-		sourceGO= new GameObject("AudioSource_"+aName);
-		sourceTR= sourceGO.transform;
-		source= sourceGO.AddComponent<AudioSource>();
-		source.name= "AudioSource_"+aName;
-		source.playOnAwake= false;
-		source.clip= aClip;
-		source.volume= aVolume;
-		clip= aClip;
-		name= aName;
-	}
-	
-	public void PlaySound(Vector3 atPosition)
-	{
-		sourceTR.position= atPosition;
-		source.PlayOneShot(clip);
-	}
-}
-
 public class BaseSoundController : MonoBehaviour
 {
-	public AudioClip[] GameSounds;
+	public string gamePrefsName = "DefaultGame"; // DO NOT FORGET TO SET THIS IN THE EDITOR!!
+
+	[SerializeField]
+	private AudioClip[] GameSounds;
 	
 	private int totalSounds;
-	private ArrayList soundObjectList;
+	private List<SoundObject> soundObjectList;
 	private SoundObject tempSoundObj;
-	
-	public float volume= 1;
-	public string gamePrefsName= "DefaultGame"; // DO NOT FORGET TO SET THIS IN THE EDITOR!!
+
+	[SerializeField]
+	[Range(0, 1)]
+	private float volume = 1;
 
 	[System.NonSerialized]
 	public static BaseSoundController Instance;
 
-	public void Awake()
+	// main event
+	void Awake()
 	{
 		// activate instance
 		if (Instance == null) {
@@ -68,7 +43,11 @@ public class BaseSoundController : MonoBehaviour
 		}
 	}
 
-	public void Init() {
+	// main logic
+	void Init() {
+		// keep this object alive
+		DontDestroyOnLoad (this.gameObject);
+
 		// we will grab the volume from PlayerPrefs when this script first starts
 		string stKey = string.Format("{0}_SFXVol", gamePrefsName);
 		if (PlayerPrefs.HasKey (stKey)) {
@@ -77,7 +56,7 @@ public class BaseSoundController : MonoBehaviour
 			volume = 0.5f;
 		}
 
-		soundObjectList=new ArrayList();
+		soundObjectList = new List<SoundObject> ();
 
 		// make sound objects for all of the sounds in GameSounds array
 		foreach(AudioClip theSound in GameSounds)
@@ -85,8 +64,15 @@ public class BaseSoundController : MonoBehaviour
 			tempSoundObj= new SoundObject(theSound, theSound.name, volume);
 			soundObjectList.Add(tempSoundObj);
 
+			// keep this object alive
+			DontDestroyOnLoad (tempSoundObj.sourceGO);
+
 			totalSounds++;
 		}
+	}
+
+	public float GetVolume() {
+		return volume;
 	}
 
 	public void UpdateVolume() {
@@ -98,7 +84,7 @@ public class BaseSoundController : MonoBehaviour
 		volume= PlayerPrefs.GetFloat(stKey);
 
 		for (int i = 0; i < soundObjectList.Count; i++) {
-			tempSoundObj = (SoundObject)soundObjectList [i];
+			tempSoundObj = soundObjectList [i];
 			tempSoundObj.source.volume = volume;
 		}
 	}
@@ -112,7 +98,37 @@ public class BaseSoundController : MonoBehaviour
 			anIndexNumber= soundObjectList.Count-1;
 		}
 		
-		tempSoundObj= (SoundObject)soundObjectList[anIndexNumber];
+		tempSoundObj = soundObjectList [anIndexNumber];
 		tempSoundObj.PlaySound(aPosition);
+	}
+}
+
+public class SoundObject
+{
+	public AudioSource source;
+	public GameObject sourceGO;
+	public Transform sourceTR;
+
+	public AudioClip clip;
+	public string name;
+
+	public SoundObject(AudioClip aClip, string aName, float aVolume)
+	{
+		// in this (the constructor) we create a new audio source and store the details of the sound itself
+		sourceGO= new GameObject("AudioSource_"+aName);
+		sourceTR = sourceGO.transform;
+		source = sourceGO.AddComponent<AudioSource> ();
+		source.name = "AudioSource_" + aName;
+		source.playOnAwake = false;
+		source.clip = aClip;
+		source.volume = aVolume;
+		clip = aClip;
+		name = aName;
+	}
+
+	public void PlaySound(Vector3 atPosition)
+	{
+		sourceTR.position= atPosition;
+		source.PlayOneShot(clip);
 	}
 }
