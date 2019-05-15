@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class LevelManager_SkyRoads : MonoBehaviour {
 
@@ -12,7 +13,12 @@ public class LevelManager_SkyRoads : MonoBehaviour {
 	[SerializeField]
 	private Transform spawnPosition;
 
+	private List<AsteroidManager_SkyRoads> asteroidList = new List<AsteroidManager_SkyRoads>();
 	private Vector3 prevPosSpawn = Vector3.zero;
+
+	[Header("Road")]
+	[SerializeField]
+	private RoadManager_SkyRoads roadManager;
 
 	[Header("Smooth Follow")]
 	[SerializeField]
@@ -28,11 +34,11 @@ public class LevelManager_SkyRoads : MonoBehaviour {
 
 	[Header("Boost Speed Player")]
 	[SerializeField]
+	private bool speedBoost = false;
+	[SerializeField]
 	private GameObject boostSpeedTrailLeft;
 	[SerializeField]
 	private GameObject boostSpeedTrailRight;
-
-	private bool speedBoost = false;
 
 	[Header("Game Controller Ref")]
 	[SerializeField]
@@ -54,23 +60,63 @@ public class LevelManager_SkyRoads : MonoBehaviour {
 		}
 	}
 
+	void Start() {
+		// keep this object alive
+		DontDestroyOnLoad (this.gameObject);
+	}
+
+	// main logic
+	public void StartLevel() {
+		prevPosSpawn = Vector3.zero;
+
+		// clear for restart
+		DestroyWave ();
+	}
+
+	public void GameOver(AsteroidManager_SkyRoads val) {
+		//remove from list
+		asteroidList.Remove (val);
+
+		// game over
+		gameController.GameOver ();
+	}
+
+	public void AddPointsForAsteroid(AsteroidManager_SkyRoads val) {
+		//remove from list
+		asteroidList.Remove (val);
+
+		// add bonuses
+		gameController.AddPointsForAsteroid ();
+	}
+
 	// Spawn part
 	public void SpawnWave() {
 		Vector3 startPosition = GetPossitio();
 		Quaternion startQuaternion = Quaternion.identity;
+		GameObject newAsteroid = null;
 
 		int asteroidNumber = Random.Range(1, 3);
 		if (asteroidNumber == 1)
 		{
-			Instantiate(spawn_1, startPosition, startQuaternion);
+			newAsteroid = Instantiate(spawn_1, startPosition, startQuaternion);
 		}
 		else if (asteroidNumber == 2)
 		{
-			Instantiate(spawn_2, startPosition, startQuaternion);
+			newAsteroid = Instantiate(spawn_2, startPosition, startQuaternion);
 		}
 		else
 		{
-			Instantiate(spawn_3, startPosition, startQuaternion);
+			newAsteroid = Instantiate(spawn_3, startPosition, startQuaternion);
+		}
+
+		// add in list and init
+		var asteroidManager = newAsteroid.GetComponent<AsteroidManager_SkyRoads>();
+		if (asteroidManager) {
+			asteroidList.Add (asteroidManager);
+
+			// set current speed
+			float speedLevel = gameController.GlobalSpeedGame * (speedBoost ? gameController.MultForBoostSpeed : 1);
+			asteroidManager.SetSpeed (speedLevel);
 		}
 	}
 
@@ -99,8 +145,27 @@ public class LevelManager_SkyRoads : MonoBehaviour {
 		}
 	}
 
+	void DestroyWave() {
+		foreach (var item in asteroidList) {
+			Destroy (item.gameObject);
+		}
+
+		asteroidList.Clear ();
+	}
 
 	// Smooth Fallow
+	public void ChangeSpeedGame() {
+		float speedLevel = gameController.GlobalSpeedGame * (speedBoost ? gameController.MultForBoostSpeed : 1);
+
+		// Asteroids
+		foreach (var item in asteroidList) {
+			item.SetSpeed (speedLevel);
+		}
+
+		// road
+		roadManager.SetSpeed (speedLevel);
+	}
+
 	public bool IsSpeedBoost() {
 		return speedBoost;
 	}
@@ -110,8 +175,7 @@ public class LevelManager_SkyRoads : MonoBehaviour {
 			speedBoost = true;
 
 			//smooth Follow
-			smoothFollow.targetOffset.z -= increaseDistance;
-			smoothFollow.targetOffset.y += increaseHeigh;
+			smoothFollow.TargetOffset += new Vector3(0, increaseHeigh, -increaseDistance);
 
 			//boost Envarinment Particles
 			boostSpeedParticles.SetActive (true);
@@ -119,6 +183,9 @@ public class LevelManager_SkyRoads : MonoBehaviour {
 			//boost Player Particles
 			boostSpeedTrailLeft.SetActive (true);
 			boostSpeedTrailRight.SetActive (true);
+
+			//change spped game
+			ChangeSpeedGame ();
 
 			Invoke ("SpeedReduce", 3);
 		} else {
@@ -133,8 +200,7 @@ public class LevelManager_SkyRoads : MonoBehaviour {
 		speedBoost = false;
 
 		//smooth Follow
-		smoothFollow.targetOffset.z += increaseDistance;
-		smoothFollow.targetOffset.y -= increaseHeigh;
+		smoothFollow.TargetOffset += new Vector3(0, -increaseHeigh, increaseDistance);
 
 		//boost Envarinment Particles
 		boostSpeedParticles.SetActive (false);
@@ -142,5 +208,8 @@ public class LevelManager_SkyRoads : MonoBehaviour {
 		//boost Player Particles
 		boostSpeedTrailLeft.SetActive (false);
 		boostSpeedTrailRight.SetActive (false);
+
+		//change spped game
+		ChangeSpeedGame ();
 	}
 }

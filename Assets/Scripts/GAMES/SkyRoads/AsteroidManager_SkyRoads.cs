@@ -2,12 +2,9 @@
 
 public class AsteroidManager_SkyRoads : MonoBehaviour {
 
-	[SerializeField]
-	private bool speedBoost = false;
-
 	[Header("Settings")]
 	[SerializeField]
-	private int multiplierSpeed = 2;
+	private float multiplierSpeed = 1f;
 
 	[Header("Speceffects")]
 	[SerializeField]
@@ -17,70 +14,50 @@ public class AsteroidManager_SkyRoads : MonoBehaviour {
 
 	[Header("Managers")]
 	[SerializeField]
-	private Mover moveManager;
+	private AutoMoveRigidBody moveManager;
 	[SerializeField]
-	private Rotator rotateManager;
+	private AutoRotateRigidBody rotateManager;
 	[SerializeField]
-	private GameController_SkyRoads gameController;
+	private LevelManager_SkyRoads levelManager;
 
 	// main event
 	void Start () {
 		Init ();
 	}
 
-	void LateUpdate() {
-		// update speed
-		int globalSpeedGame = gameController.GlobalSpeedGame;
-		if ((moveManager.speed * multiplierSpeed) != globalSpeedGame) {
-			moveManager.speed = globalSpeedGame * multiplierSpeed;
-			moveManager.UpdateVelocity ();
-		}
-
-		// update speed boost
-		bool speedBoostGC = gameController.IsBoostSpeed ();
-		float multForBoostSpeed = gameController.MultForBoostSpeed;
-		if (speedBoostGC) {
-			if (!speedBoost) {
-				moveManager.speed *= multForBoostSpeed;
-				moveManager.UpdateVelocity ();
-				speedBoost = true;
-			}
-		} else {
-			if (speedBoost) {
-				moveManager.speed /= multForBoostSpeed;
-				moveManager.UpdateVelocity ();
-				speedBoost = false;
-			}
-		}
-	}
-
 	void OnTriggerEnter(Collider other) {
-		if (other.tag == "Floor")
-		{
+		if (other.tag == "Player") {
+			levelManager.GameOver (this);
+		} else {
 			return;
-		};
-
-		if (other.tag == "Player")
-		{
-			//Instantiate(ExplosionPlayer, other.transform.position, other.transform.rotation);
-			gameController.GameOver();
-		};
+		}
 
 		//Instantiate(Explosion, transform.position, transform.rotation);
-		//Destroy(other.gameObject);
 		Destroy(gameObject);
+	}
 
-		gameController.AddScore (gameController.CountScoreForAsteroid);
+	void OnTriggerExit(Collider other) {
+		if (other.tag == "Floor") {
+			levelManager.AddPointsForAsteroid (this);
+		} else {
+			return;
+		}
+
+		Destroy(gameObject);
 	}
 
 	// main logic
 	void Init() {
-		if (!gameController) {
-			gameController = GameController_SkyRoads.Instance;
+		if (!levelManager) {
+			levelManager = LevelManager_SkyRoads.Instance;
 
-			if (!gameController) {
-				Debug.Log ("Cannot find GameController!!");
+			if (!levelManager) {
+				Debug.Log ("Cannot find LevelManager!!");
 			}
 		}
+	}
+
+	public void SetSpeed(float val) {
+		moveManager.Speed = val * multiplierSpeed;
 	}
 }

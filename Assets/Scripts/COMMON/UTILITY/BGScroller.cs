@@ -2,21 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BGScroller : MonoBehaviour {
+[AddComponentMenu("Utility/Back ground scroller")]
 
-	public float scrollSpeed;
-	public float tileSizeZ;
+public class BGScroller : ExtendedCustomMonoBehaviour
+{
+	[Header("Settings")]
+	[SerializeField]
+	private Vector3 direction = Vector3.back;
+	[SerializeField]
+	private float scrollSpeed;
+	[SerializeField]
+	private float tileSizeZ;
 
 	private Vector3 startPosition;
 
-	// Use this for initialization
-	void Start () {
+	// main event
+	void Update () {
+		if (canControl) {
+			float newPosition = Mathf.Repeat (Time.time * scrollSpeed, tileSizeZ);
+			transform.position = startPosition + direction * newPosition;
+		}
+	}
+
+	// main logic
+	public override void Init ()
+	{
+		// base init
+		base.Init ();
+
+		canControl = true;
+
+		// save start possition
 		startPosition = transform.position;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		float newPosition = Mathf.Repeat (Time.time * scrollSpeed, tileSizeZ);
-		transform.position = startPosition + Vector3.forward * newPosition;
+
+	public float ScrollSpeed {
+		get { return scrollSpeed; }
+		set { scrollSpeed = value; }
 	}
 }

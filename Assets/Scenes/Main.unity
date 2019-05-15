@@ -9686,12 +9686,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfbc5b9cec751fc40a2f347f3f12d018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myTransform: {fileID: 596133576}
-  myGO: {fileID: 596133574}
-  myBody: {fileID: 0}
   didInit: 0
   canControl: 1
-  id: 0
   moveXSpeed: 5
   moveZSpeed: 0
   limitX: 3
@@ -9699,6 +9695,7 @@ MonoBehaviour:
   rotateZAmount: 15
   horizontal_input: 0
   vertical_input: 0
+  default_input: {fileID: 0}
 --- !u!1 &622826469
 GameObject:
   m_ObjectHideFlags: 0
@@ -10313,8 +10310,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26db2ade5653238429e3721946cd520a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: -10
-  tileSizeZ: 100
+  didInit: 0
+  canControl: 0
+  direction: {x: 0, y: 0, z: -1}
+  scrollSpeed: 10
+  tileSizeZ: -100
 --- !u!1 &725259228
 GameObject:
   m_ObjectHideFlags: 0
@@ -10468,22 +10468,6 @@ MonoBehaviour:
   followTarget: {fileID: 1127103733}
   targetOffset: {x: 0, y: 0, z: 0}
   moveSpeed: 0
---- !u!1 &725621743 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100002, guid: 4319d9e04010d3e4e872da9c074a632f, type: 2}
-  m_PrefabInternal: {fileID: 1914076883}
---- !u!114 &725621746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 725621743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28b1e2c9df9003645832bd4798a145c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spinVector: {x: 0, y: 0.5, z: 0}
 --- !u!1 &740716387
 GameObject:
   m_ObjectHideFlags: 0
@@ -15794,7 +15778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -16156,13 +16140,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4138f85a93c8e69459517c20c248b251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gamePrefsName: Skyroads
   GameSounds:
   - {fileID: 8300000, guid: e89cfddf923797444a6a699ca11bc900, type: 3}
   - {fileID: 8300000, guid: f3d683d157e52424b8c824b47e4f5995, type: 3}
   - {fileID: 8300000, guid: 5b46bc90247867746bb4feb3bb4df4db, type: 3}
   - {fileID: 8300000, guid: 2ef2ea807c0639d41ab1c23098d26ce4, type: 3}
   volume: 1
-  gamePrefsName: Skyroads
 --- !u!1 &1147615188
 GameObject:
   m_ObjectHideFlags: 0
@@ -16362,7 +16346,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   didInit: 0
   DataManager: {fileID: 1202138659}
-  DataManager_New: {fileID: 1202138659}
 --- !u!114 &1202138659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16788,7 +16771,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionPrefab: {fileID: 0}
   developState: 0
-  globalSpeedGame: -10
+  globalSpeedGame: 10
   secondIncreaseComplexity: 60
   spawnCount: 5
   startWait: 3
@@ -16963,10 +16946,12 @@ MonoBehaviour:
   spawn_2: {fileID: 1570447730299766, guid: 5fda50fc31e27914daf116576ee27baa, type: 2}
   spawn_3: {fileID: 1450271113320628, guid: 981c0874113c3174f8aa6fe600398144, type: 2}
   spawnPosition: {fileID: 1305938056}
+  roadManager: {fileID: 2050193831}
   smoothFollow: {fileID: 725259237}
   increaseDistance: 5
   increaseHeigh: 2
   boostSpeedParticles: {fileID: 1975189124}
+  speedBoost: 0
   boostSpeedTrailLeft: {fileID: 330831515}
   boostSpeedTrailRight: {fileID: 1738032632}
   gameController: {fileID: 1320667772}
@@ -19768,14 +19753,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 2300002, guid: 4319d9e04010d3e4e872da9c074a632f, type: 2}
-      propertyPath: m_ReflectionProbeUsage
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400002, guid: 4319d9e04010d3e4e872da9c074a632f, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4319d9e04010d3e4e872da9c074a632f, type: 2}
   m_IsPrefabParent: 0
@@ -21102,7 +21079,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2050193828}
   - component: {fileID: 2050193830}
-  - component: {fileID: 2050193829}
   - component: {fileID: 2050193831}
   m_Layer: 0
   m_Name: Road
@@ -21128,33 +21104,6 @@ Transform:
   m_Father: {fileID: 740716388}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2050193829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2050193827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc9b8cb26d01ec84ab26e77706790ac0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventBoundery:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1320667772}
-        m_MethodName: AddPointsForAsteroid
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
 --- !u!65 &2050193830
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21181,7 +21130,6 @@ MonoBehaviour:
   speedBoost: 0
   multiplierSpeed: 1
   bgScroller: {fileID: 715275460}
-  gameController: {fileID: 1320667772}
 --- !u!1 &2051877568
 GameObject:
   m_ObjectHideFlags: 0

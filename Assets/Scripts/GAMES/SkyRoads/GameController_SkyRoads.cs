@@ -53,8 +53,8 @@ public class GameController_SkyRoads : BaseGameController {
 
 	private TimerClass timerLevel;
 
-	private bool restartGame;
-	private bool gameOver;
+	private bool restartGame = false;
+	private bool gameOver = false;
 	private bool needSaveData = false;
 
 	[System.NonSerialized]
@@ -87,6 +87,9 @@ public class GameController_SkyRoads : BaseGameController {
 	}
 
 	void Start() {
+		// keep this object alive
+		DontDestroyOnLoad (this.gameObject);
+
 		// load date
 		playerManager.LoadPrivateDataPlayer ();
 
@@ -162,6 +165,9 @@ public class GameController_SkyRoads : BaseGameController {
 
 		timerLevel = ScriptableObject.CreateInstance<TimerClass>();
 		StartTimer ();
+
+		// restart levelManager
+		levelManager.StartLevel();
 
 		//update Menu Info in window
 		menuMenager.SetNamePlayer(playerManager.GetPlayerName());
@@ -310,7 +316,7 @@ public class GameController_SkyRoads : BaseGameController {
 	}
 
 	void MainAction() {
-		time += Time.deltaTime;
+		time += Time.deltaTime * (IsBoostSpeed() ? multForBoostSpeed : 1);
 
 		if ((!startWaitPassed) && (time >= startWait)) startWaitPassed = true;
 		if ((!waveDelayPassed) && (time >= waveDelay)) waveDelayPassed = true;
@@ -366,8 +372,11 @@ public class GameController_SkyRoads : BaseGameController {
 	void SpeedAction() {
 		if (timePlay > lastIncreaseCopmlexity + secondIncreaseComplexity) {
 			// speed Game
-			if (globalSpeedGame > -30) {
-				globalSpeedGame -= 1;
+			if (globalSpeedGame < 30) {
+				globalSpeedGame += 1;
+
+				// level manager update speed
+				levelManager.ChangeSpeedGame ();
 			}
 
 			// decrease WaweDelay
@@ -406,7 +415,10 @@ public class GameController_SkyRoads : BaseGameController {
 	}
 
 	public void RestartGame() {
-		RestartGameButtonPressed ();
+		StartGame ();
+
+		// user interface
+		menuMenager.DisActivateWindow ();
 	}
 
 	public void AddPointsForAsteroid() {

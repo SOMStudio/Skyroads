@@ -3,17 +3,32 @@ using System.Collections;
 
 [AddComponentMenu("Utility/Auto spin object")]
 
-public class AutoSpinObject : MonoBehaviour
+public sealed class AutoSpinObject : ExtendedCustomMonoBehaviour
 {	
-	public Vector3 spinVector = new Vector3(1,0,0);
-	private Transform myTransform;
-	
-	void Start ()
-	{
-		myTransform=transform;
-	}
-	
+	[Header("Settings")]
+	[SerializeField]
+	private Vector3 spinVector = new Vector3(1,0,0);
+
+	// main events
+
 	void LateUpdate () {
-		myTransform.Rotate (spinVector*Time.deltaTime);
+		if (canControl) {
+			myTransform.Rotate (spinVector * Time.deltaTime);
+		}
+	}
+
+	// main logic
+
+	public override void Init ()
+	{
+		// init base
+		base.Init ();
+
+		canControl = true;
+	}
+
+	public Vector3 SpinVector {
+		get { return spinVector; }
+		set { spinVector = value; }
 	}
 }

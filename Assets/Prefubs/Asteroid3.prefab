@@ -141,12 +141,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedBoost: 0
-  multiplierSpeed: 2
+  multiplierSpeed: 1.5
   Explosion: {fileID: 0}
   ExplosionPlayer: {fileID: 0}
   moveManager: {fileID: 114290270936752578}
   rotateManager: {fileID: 114780874570144840}
-  gameController: {fileID: 0}
+  levelManager: {fileID: 0}
 --- !u!114 &114290270936752578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -158,13 +158,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f35df03a03263544a7164bc2cbe7c69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myTransform: {fileID: 4343313255448482}
-  myGO: {fileID: 1450271113320628}
-  myBody: {fileID: 54389362788386820}
   didInit: 0
   canControl: 0
-  id: 0
-  speed: -20
+  direction: {x: 0, y: 0, z: -1}
+  speed: 20
 --- !u!114 &114780874570144840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -176,14 +173,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f939515eecb1324388a2165920fb19a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myTransform: {fileID: 4343313255448482}
-  myGO: {fileID: 1450271113320628}
-  myBody: {fileID: 54389362788386820}
   didInit: 0
   canControl: 0
-  id: 0
-  angleSpeedMin: 1
-  angleSpeedMax: 2
+  direction: {x: 0.3, y: 0.7, z: 1}
+  speed: 5
 --- !u!135 &135876278113717162
 SphereCollider:
   m_ObjectHideFlags: 1

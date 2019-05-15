@@ -1,24 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FallowTarget : MonoBehaviour {
+[AddComponentMenu("Utility/Fallow Target")]
+
+public class FallowTarget : ExtendedCustomMonoBehaviour {
 	
-	public Transform followTarget;
-	public Vector3 targetOffset;
-	public float moveSpeed= 2f;
+	[Header("Settings")]
+	[SerializeField]
+	private Transform followTarget;
+	[SerializeField]
+	private Vector3 targetOffset = Vector3.zero;
+	[SerializeField]
+	private float moveSpeed= 2f;
 
-	private Transform myTransform;
-
-	void Start ()
-	{
-		myTransform = transform;
-	}
-
-	public void SetTarget( Transform aTransform )
-	{
-		followTarget = aTransform;
-	}
-
+	// main event
 	void LateUpdate ()
 	{
 		if (followTarget) {
@@ -30,5 +25,29 @@ public class FallowTarget : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	// main logic
+	public override void Init ()
+	{
+		// base init
+		base.Init ();
+
+		canControl = true;
+	}
+
+	public Transform FollowTarget {
+		get { return followTarget; }
+		set { followTarget = value; }
+	}
+
+	public Vector3 TargetOffset {
+		get { return targetOffset; }
+		set { targetOffset = value; }
+	}
+
+	public float MoveSpeed {
+		get { return moveSpeed; }
+		set { moveSpeed = value; }
 	}
 }
