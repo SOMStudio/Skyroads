@@ -16,16 +16,8 @@ public class Keyboard_Input : BaseInputController {
 
 	protected override void CheckInput ()
 	{	
-		// get input data from vertical and horizontal axis and store them internally in vert and horz so we don't
-		// have to access them every time we need to relay input data out
-		vert = Input.GetAxis( "Vertical" );
-		horz = Input.GetAxis( "Horizontal" );
-		
-		// set up some boolean values for up, down, left and right
-		Up		= ( vert>0 );
-		Down	= ( vert<0 );
-		Left	= ( horz<0 );
-		Right	= ( horz>0 );
+		// get input data from vertical and horizontal axis
+		base.CheckInput ();
 		
 		// get fire / action buttons
 		Fire1 = Input.GetButton( "Fire1" );
