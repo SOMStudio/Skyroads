@@ -16,12 +16,14 @@ public class FallowTarget : ExtendedCustomMonoBehaviour {
 	// main event
 	void LateUpdate ()
 	{
-		if (followTarget) {
-			if ((myTransform.position - (followTarget.position + targetOffset)).magnitude > 0.1f) {
-				if (moveSpeed == 0) {
-					myTransform.position = followTarget.position + targetOffset;
-				} else {
-					myTransform.position = Vector3.Lerp (myTransform.position, followTarget.position + targetOffset, moveSpeed * Time.deltaTime);
+		if (canControl) {
+			if (followTarget) {
+				if ((myTransform.position - (followTarget.position + targetOffset)).magnitude > 0.1f) {
+					if (moveSpeed == 0) {
+						myTransform.position = followTarget.position + targetOffset;
+					} else {
+						myTransform.position = Vector3.Lerp (myTransform.position, followTarget.position + targetOffset, moveSpeed * Time.deltaTime);
+					}
 				}
 			}
 		}

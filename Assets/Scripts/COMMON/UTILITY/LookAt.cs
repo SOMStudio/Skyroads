@@ -15,15 +15,17 @@ public class LookAt : ExtendedCustomMonoBehaviour {
 
 	// main event
 	void LateUpdate() {
-		if (followTarget) {
-			Quaternion turgRotate = Quaternion.LookRotation ((followTarget.position + targetOffset) - myTransform.position);
-			Quaternion myRotate = myTransform.rotation;
+		if (canControl) {
+			if (followTarget) {
+				Quaternion turgRotate = Quaternion.LookRotation ((followTarget.position + targetOffset) - myTransform.position);
+				Quaternion myRotate = myTransform.rotation;
 
-			if ((myRotate.eulerAngles - turgRotate.eulerAngles).magnitude > 0.1f) {
-				if (moveSpeed == 0) {
-					myTransform.LookAt (followTarget.position + targetOffset);
-				} else {
-					myTransform.rotation = Quaternion.Slerp (myRotate, turgRotate, moveSpeed * Time.deltaTime);
+				if ((myRotate.eulerAngles - turgRotate.eulerAngles).magnitude > 0.1f) {
+					if (moveSpeed == 0) {
+						myTransform.LookAt (followTarget.position + targetOffset);
+					} else {
+						myTransform.rotation = Quaternion.Slerp (myRotate, turgRotate, moveSpeed * Time.deltaTime);
+					}
 				}
 			}
 		}

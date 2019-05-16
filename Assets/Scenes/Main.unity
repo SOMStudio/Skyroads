@@ -10451,6 +10451,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e336ff3cfefa5b741a70405c024386ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  didInit: 0
+  canControl: 0
   followTarget: {fileID: 596133576}
   targetOffset: {x: 0, y: 2.5, z: -5}
   moveSpeed: 6
@@ -10465,6 +10467,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2230452ba3a4c24780001842a65ffa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  didInit: 0
+  canControl: 0
   followTarget: {fileID: 1127103733}
   targetOffset: {x: 0, y: 0, z: 0}
   moveSpeed: 0
@@ -11259,7 +11263,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1320667772}
-        m_MethodName: RestartGame
+        m_MethodName: RestartGameButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16776,7 +16780,7 @@ MonoBehaviour:
   spawnCount: 5
   startWait: 3
   waveDelay: 3
-  objectDelay: 1
+  objectDelay: 1.5
   minDistanceBetweenObject: 2
   countScoreForAsteroid: 5
   countScoreForSecont: 1
@@ -21127,7 +21131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e91ed53a0ea6df64b91cffabf125569f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedBoost: 0
   multiplierSpeed: 1
   bgScroller: {fileID: 715275460}
 --- !u!1 &2051877568

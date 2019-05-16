@@ -5,10 +5,11 @@ using System.Collections.Generic;
 
 public class BaseSoundController : MonoBehaviour
 {
-	public string gamePrefsName = "DefaultGame"; // DO NOT FORGET TO SET THIS IN THE EDITOR!!
+	[SerializeField]
+	private string gamePrefsName = "DefaultGame"; // DO NOT FORGET TO SET THIS IN THE EDITOR!!
 
 	[SerializeField]
-	private AudioClip[] GameSounds;
+	protected AudioClip[] GameSounds;
 	
 	private int totalSounds;
 	private List<SoundObject> soundObjectList;

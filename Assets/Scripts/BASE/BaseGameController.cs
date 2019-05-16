@@ -18,7 +18,8 @@ public class BaseGameController : MonoBehaviour
 
 	[SerializeField]
 	protected GameObject explosionPrefab;
-	
+
+	// main logic
 	public virtual void PlayerLostLife ()
 	{
 		// deal with player life lost (update U.I. etc.)

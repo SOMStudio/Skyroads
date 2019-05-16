@@ -2,7 +2,8 @@
 
 public class AnimationOpenClose : MonoBehaviour {
 
-	public bool hasHideAnimation = false;
+	[SerializeField]
+	private bool hasHideAnimation = false;
 
 	static readonly int open_Anim = Animator.StringToHash ("open");
 	static readonly int hide_Anim = Animator.StringToHash ("hide");

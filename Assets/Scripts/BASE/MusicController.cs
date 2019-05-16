@@ -3,7 +3,8 @@ using System.Collections;
 
 public class MusicController : MonoBehaviour {
 
-	public string gamePrefsName= "DefaultGame"; // DO NOT FORGET TO SET THIS IN THE EDITOR!!
+	[SerializeField]
+	private string gamePrefsName= "DefaultGame"; // DO NOT FORGET TO SET THIS IN THE EDITOR!!
 
 	[Range(0, 1)]
 	public float volume;

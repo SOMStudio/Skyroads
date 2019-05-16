@@ -5,30 +5,48 @@ using UnityEngine;
 public class BaseInputController : MonoBehaviour {
 	
 	[Header("Directional")]
-	public bool Up;
-	public bool Down;
-	public bool Left;
-	public bool Right;
+	[SerializeField]
+	protected bool Up;
+	[SerializeField]
+	protected bool Down;
+	[SerializeField]
+	protected bool Left;
+	[SerializeField]
+	protected bool Right;
 
 	[Header("Fire")]
-	public bool Fire1;
+	[SerializeField]
+	protected bool Fire1;
 
 	[Header("Weapon Slot")]
-	public bool Slot1;
-	public bool Slot2;
-	public bool Slot3;
-	public bool Slot4;
-	public bool Slot5;
-	public bool Slot6;
-	public bool Slot7;
-	public bool Slot8;
-	public bool Slot9;
+	[SerializeField]
+	protected bool Slot1;
+	[SerializeField]
+	protected bool Slot2;
+	[SerializeField]
+	protected bool Slot3;
+	[SerializeField]
+	protected bool Slot4;
+	[SerializeField]
+	protected bool Slot5;
+	[SerializeField]
+	protected bool Slot6;
+	[SerializeField]
+	protected bool Slot7;
+	[SerializeField]
+	protected bool Slot8;
+	[SerializeField]
+	protected bool Slot9;
 
 	[Header("Shift dir")]
-	public float vert;
-	public float horz;
-	public bool shouldRespawn;
-	
+	[SerializeField]
+	protected float vert;
+	[SerializeField]
+	protected float horz;
+	[SerializeField]
+	protected bool shouldRespawn;
+
+	// main logic
 	protected virtual void CheckInput ()
 	{	
 		// override with your own code to deal with input

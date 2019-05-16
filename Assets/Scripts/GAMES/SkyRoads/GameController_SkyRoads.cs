@@ -2,11 +2,14 @@
 
 public class GameController_SkyRoads : BaseGameController {
 
-	public bool developState = false;
+	[SerializeField]
+	private bool developState = false;
 
 	[Header("Main Settings")]
 	[SerializeField]
 	private int globalSpeedGame = 10;
+	private const int globalSpeedGameLimit = 30;
+	private const int globalSpeedGameIncreaseStep = 1;
 	[SerializeField]
 	private int secondIncreaseComplexity = 60;
 
@@ -19,8 +22,11 @@ public class GameController_SkyRoads : BaseGameController {
 	private float startWait = 3.0f;
 	[SerializeField]
 	private float waveDelay = 3.0f;
+	private const float waveDelayDecreaseStep = 0.2f;
 	[SerializeField]
-	private float objectDelay = 1.0f;
+	private float objectDelay = 1.5f;
+	private const float objectDelayLimit = 0.5f;
+	private const float objectDelayDecreseStep = 0.1f;
 	[SerializeField]
 	private float minDistanceBetweenObject = 2.0f;
 
@@ -37,7 +43,9 @@ public class GameController_SkyRoads : BaseGameController {
 	[SerializeField]
 	private int countScoreForAsteroid = 5;
 	[SerializeField]
-	private int countScoreForSecont = 1;
+	private int countScoreForSecond = 1;
+	[SerializeField]
+	private int multScoreForBoost = 2;
 
 	private int score = 0;
 	private int avoidAsteroid = 0;
@@ -49,7 +57,7 @@ public class GameController_SkyRoads : BaseGameController {
 
 	[Header("Boost Settings")]
 	[SerializeField]
-	private float multForBoostSpeed = 2.0f;
+	private int multForBoostSpeed = 2;
 
 	private TimerClass timerLevel;
 
@@ -76,14 +84,8 @@ public class GameController_SkyRoads : BaseGameController {
 
 	// main event
 	void Awake() {
-		// activate instance
-		if (Instance == null) {
-			Instance = this;
-
-			InitManagers ();
-		} else if (Instance != this) {
-			Destroy (gameObject);
-		}
+		// init object
+		Init ();
 	}
 
 	void Start() {
@@ -202,6 +204,11 @@ public class GameController_SkyRoads : BaseGameController {
 		}
 	}
 
+	public bool DevelopState {
+		get { return developState; }
+		set { developState = value; }
+	}
+
 	public int GlobalSpeedGame { get { return globalSpeedGame; } }
 
 	public float MultForBoostSpeed { get { return multForBoostSpeed; } }
@@ -306,7 +313,7 @@ public class GameController_SkyRoads : BaseGameController {
 		{
 			if (Input.GetKeyDown(KeyCode.R))
 			{
-				RestartGame ();
+				RestartGameButtonPressed ();
 			}
 		}
 		else
@@ -353,9 +360,9 @@ public class GameController_SkyRoads : BaseGameController {
 
 			// add bonuses
 			if (IsBoostSpeed ()) {
-				AddScore (2 * countScoreForSecont);
+				AddScore (multScoreForBoost * countScoreForSecond);
 			} else {
-				AddScore (countScoreForSecont);
+				AddScore (countScoreForSecond);
 			}
 		}
 
@@ -372,8 +379,8 @@ public class GameController_SkyRoads : BaseGameController {
 	void SpeedAction() {
 		if (timePlay > lastIncreaseCopmlexity + secondIncreaseComplexity) {
 			// speed Game
-			if (globalSpeedGame < 30) {
-				globalSpeedGame += 1;
+			if (globalSpeedGame < globalSpeedGameLimit) {
+				globalSpeedGame += globalSpeedGameIncreaseStep;
 
 				// level manager update speed
 				levelManager.ChangeSpeedGame ();
@@ -381,12 +388,12 @@ public class GameController_SkyRoads : BaseGameController {
 
 			// decrease WaweDelay
 			if (waveDelay > objectDelay) {
-				waveDelay -= 0.5f;
+				waveDelay -= waveDelayDecreaseStep;
 			}
 
 			// decrease ObjectDelay
-			if (objectDelay > 0.5f) {
-				objectDelay -= 0.1f;
+			if (objectDelay > objectDelayLimit) {
+				objectDelay -= objectDelayDecreseStep;
 			}
 
 			lastIncreaseCopmlexity += secondIncreaseComplexity;
@@ -414,7 +421,8 @@ public class GameController_SkyRoads : BaseGameController {
 		}
 	}
 
-	public void RestartGame() {
+	public override void RestartGameButtonPressed ()
+	{
 		StartGame ();
 
 		// user interface

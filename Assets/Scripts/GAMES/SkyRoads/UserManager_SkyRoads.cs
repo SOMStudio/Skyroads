@@ -8,6 +8,7 @@ public class UserManager_SkyRoads : BaseUserManager {
 	private int timeBest;
 	private int asteroidBest;
 
+	// main logic
 	public override void GetDefaultData()
 	{
 		base.GetDefaultData ();
@@ -15,10 +16,7 @@ public class UserManager_SkyRoads : BaseUserManager {
 		scoreBest = 0;
 		timeBest = 0;
 		asteroidBest = 0;
-
 	}
-
-	//===================
 
 	public int GetScoreBest()
 	{
@@ -50,7 +48,7 @@ public class UserManager_SkyRoads : BaseUserManager {
 		asteroidBest = num;
 	}
 
-	//=for save data=====================
+	//save data
 	private FileStream filePlayerData;
 
 	private void OpenPlayerDataFileForWrite() {

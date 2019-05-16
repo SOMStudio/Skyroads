@@ -207,11 +207,11 @@ public class MenuManager_SkyRoads : BaseMenuController {
 		gameController.SetNamePlayer (val);
 
 		if (val == "TEST") {
-			gameController.developState = true;
+			gameController.DevelopState = true;
 
 			ShowDevelopList ();
 		} else {
-			gameController.developState = false;
+			gameController.DevelopState = false;
 
 			HideDevelopList ();
 		}

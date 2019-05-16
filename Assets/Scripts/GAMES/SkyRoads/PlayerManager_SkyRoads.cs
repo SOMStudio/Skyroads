@@ -24,7 +24,7 @@ public class PlayerManager_SkyRoads : BasePlayerManager {
 			Instance = this;
 
 			if (!didInit)
-				Init ();
+				base.Init ();
 		} else if (Instance != this) {
 			Destroy (gameObject);
 		}

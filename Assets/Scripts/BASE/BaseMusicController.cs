@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 public class BaseMusicController : MonoBehaviour {
 
-	public List<MusicController> musicList;
+	[SerializeField]
+	protected List<MusicController> musicList;
 
 	[System.NonSerialized]
 	public static BaseMusicController Instance;
 
 	// main event
-
 	void Awake()
 	{
 		Init ();
@@ -21,7 +21,6 @@ public class BaseMusicController : MonoBehaviour {
 	}
 
 	// main logic
-
 	public void Init() {
 		// activate instance
 		if (Instance == null) {

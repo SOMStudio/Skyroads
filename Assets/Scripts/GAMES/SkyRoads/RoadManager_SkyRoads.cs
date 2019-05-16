@@ -11,7 +11,6 @@ public class RoadManager_SkyRoads : MonoBehaviour {
 	private BGScroller bgScroller;
 
 	// main logic
-
 	public void SetSpeed(float val) {
 		bgScroller.ScrollSpeed = val * multiplierSpeed;
 	}

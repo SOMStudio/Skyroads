@@ -10,7 +10,7 @@ public class VignetteSOM : MonoBehaviour {
 	public Shader curShader;
 
 	[Header("Main")]
-	[Range(-50.0f, 50.0f)]
+	[Range(0.0f, 50.0f)]
 	public float intensity = 0.5f;
 
 	private Material curMaterial = null;
