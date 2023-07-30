@@ -1,99 +1,86 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class LevelManager_SkyRoads : MonoBehaviour {
-
+public class LevelManager_SkyRoads : MonoBehaviour
+{
 	[Header("Asteroids")]
-	[SerializeField]
-	private GameObject spawn_1;
-	[SerializeField]
-	private GameObject spawn_2;
-	[SerializeField]
-	private GameObject spawn_3;
-	[SerializeField]
-	private Transform spawnPosition;
+	[SerializeField] private GameObject spawn_1;
+	[SerializeField] private GameObject spawn_2;
+	[SerializeField] private GameObject spawn_3;
+	[SerializeField] private Transform spawnPosition;
 
-	private List<AsteroidManager_SkyRoads> asteroidList = new List<AsteroidManager_SkyRoads>();
+	private readonly List<AsteroidManager_SkyRoads> asteroidList = new List<AsteroidManager_SkyRoads>();
 	private Vector3 prevPosSpawn = Vector3.zero;
 
 	[Header("Road")]
-	[SerializeField]
-	private RoadManager_SkyRoads roadManager;
+	[SerializeField] private RoadManager_SkyRoads roadManager;
 
 	[Header("Smooth Follow")]
-	[SerializeField]
-	private FallowTarget smoothFollow;
-	[SerializeField]
-	private float increaseDistance = 5;
-	[SerializeField]
-	private float increaseHeigh = 2;
+	[SerializeField] private FallowTarget smoothFollow;
+
+	[SerializeField] private float increaseDistance = 5;
+	[SerializeField] private float increaseHeight = 2;
 
 	[Header("Boost Speed Environment")]
-	[SerializeField]
-	private GameObject boostSpeedParticles;
+	[SerializeField] private GameObject boostSpeedParticles;
 
 	[Header("Boost Speed Player")]
-	[SerializeField]
-	private bool speedBoost = false;
-	[SerializeField]
-	private GameObject boostSpeedTrailLeft;
-	[SerializeField]
-	private GameObject boostSpeedTrailRight;
+	[SerializeField] private bool speedBoost;
+
+	[SerializeField] private GameObject boostSpeedTrailLeft;
+	[SerializeField] private GameObject boostSpeedTrailRight;
 
 	[Header("Game Controller Ref")]
-	[SerializeField]
-	private GameController_SkyRoads gameController;
+	[SerializeField] private GameController_SkyRoads gameController;
 
-	[System.NonSerialized]
-	public static LevelManager_SkyRoads Instance;
+	[System.NonSerialized] public static LevelManager_SkyRoads Instance;
 
-	// main event
-	void Awake () {
-		// activate instance
-		if (Instance == null) {
+	private void Awake()
+	{
+		if (Instance == null)
+		{
 			Instance = this;
 
 			if (!gameController)
 				gameController = GameController_SkyRoads.Instance;
-		} else if (Instance != this) {
-			Destroy (gameObject);
+		}
+		else if (Instance != this)
+		{
+			Destroy(gameObject);
 		}
 	}
 
-	void Start() {
-		// keep this object alive
-		DontDestroyOnLoad (this.gameObject);
+	private void Start()
+	{
+		DontDestroyOnLoad(this.gameObject);
 	}
-
-	// main logic
-	public void StartLevel() {
+	
+	public void StartLevel()
+	{
 		prevPosSpawn = Vector3.zero;
-
-		// clear for restart
-		DestroyWave ();
+		
+		DestroyWave();
 	}
 
-	public void GameOver(AsteroidManager_SkyRoads val) {
-		//remove from list
-		asteroidList.Remove (val);
-
-		// game over
-		gameController.GameOver ();
+	public void GameOver(AsteroidManager_SkyRoads val)
+	{
+		asteroidList.Remove(val);
+		
+		gameController.GameOver();
 	}
 
-	public void AddPointsForAsteroid(AsteroidManager_SkyRoads val) {
-		//remove from list
-		asteroidList.Remove (val);
-
-		// add bonuses
-		gameController.AddPointsForAsteroid ();
+	public void AddPointsForAsteroid(AsteroidManager_SkyRoads val)
+	{
+		asteroidList.Remove(val);
+		
+		gameController.AddPointsForAsteroid();
 	}
-
-	// Spawn part
-	public void SpawnWave() {
-		Vector3 startPosition = GetPossitio();
+	
+	public void SpawnWave()
+	{
+		Vector3 startPosition = GetPosition();
 		Quaternion startQuaternion = Quaternion.identity;
-		GameObject newAsteroid = null;
+		GameObject newAsteroid;
 
 		int asteroidNumber = Random.Range(1, 3);
 		if (asteroidNumber == 1)
@@ -108,20 +95,20 @@ public class LevelManager_SkyRoads : MonoBehaviour {
 		{
 			newAsteroid = Instantiate(spawn_3, startPosition, startQuaternion);
 		}
-
-		// add in list and init
+		
 		var asteroidManager = newAsteroid.GetComponent<AsteroidManager_SkyRoads>();
-		if (asteroidManager) {
-			asteroidList.Add (asteroidManager);
-
-			// set current speed
+		if (asteroidManager)
+		{
+			asteroidList.Add(asteroidManager);
+			
 			float speedLevel = gameController.GlobalSpeedGame * (speedBoost ? gameController.MultForBoostSpeed : 1);
-			asteroidManager.SetSpeed (speedLevel);
+			asteroidManager.SetSpeed(speedLevel);
 		}
 	}
 
-	Vector3 GetPossitio() {
-		float xPos = Random.Range (spawnPosition.position.x - 3.0f, spawnPosition.position.x + 3.0f);
+	private Vector3 GetPosition()
+	{
+		float xPos = Random.Range(spawnPosition.position.x - 3.0f, spawnPosition.position.x + 3.0f);
 
 		Vector3 resPos = new Vector3(xPos, spawnPosition.position.y, spawnPosition.position.z);
 		bool findProblem = false;
@@ -133,9 +120,9 @@ public class LevelManager_SkyRoads : MonoBehaviour {
 			findProblem = true;
 		}
 
-		if (findProblem) 
+		if (findProblem)
 		{
-			return GetPossitio();
+			return GetPosition();
 		}
 		else
 		{
@@ -145,71 +132,71 @@ public class LevelManager_SkyRoads : MonoBehaviour {
 		}
 	}
 
-	void DestroyWave() {
-		foreach (var item in asteroidList) {
-			Destroy (item.gameObject);
+	private void DestroyWave()
+	{
+		foreach (var item in asteroidList)
+		{
+			Destroy(item.gameObject);
 		}
 
-		asteroidList.Clear ();
+		asteroidList.Clear();
 	}
-
-	// Smooth Fallow
-	public void ChangeSpeedGame() {
+	
+	public void ChangeSpeedGame()
+	{
 		float speedLevel = gameController.GlobalSpeedGame * (speedBoost ? gameController.MultForBoostSpeed : 1);
-
-		// Asteroids
-		foreach (var item in asteroidList) {
-			item.SetSpeed (speedLevel);
+		
+		foreach (var item in asteroidList)
+		{
+			item.SetSpeed(speedLevel);
 		}
-
-		// road
-		roadManager.SetSpeed (speedLevel);
+		
+		roadManager.SetSpeed(speedLevel);
 	}
 
-	public bool IsSpeedBoost() {
+	public bool IsSpeedBoost()
+	{
 		return speedBoost;
 	}
 
-	public void SpeedBoost() {
-		if (!speedBoost) {
+	public void SpeedBoost()
+	{
+		if (!speedBoost)
+		{
 			speedBoost = true;
+			
+			smoothFollow.TargetOffset += new Vector3(0, increaseHeight, -increaseDistance);
+			
+			boostSpeedParticles.SetActive(true);
+			
+			boostSpeedTrailLeft.SetActive(true);
+			boostSpeedTrailRight.SetActive(true);
+			
+			ChangeSpeedGame();
 
-			//smooth Follow
-			smoothFollow.TargetOffset += new Vector3(0, increaseHeigh, -increaseDistance);
-
-			//boost Envarinment Particles
-			boostSpeedParticles.SetActive (true);
-
-			//boost Player Particles
-			boostSpeedTrailLeft.SetActive (true);
-			boostSpeedTrailRight.SetActive (true);
-
-			//change spped game
-			ChangeSpeedGame ();
-
-			Invoke ("SpeedReduce", 3);
-		} else {
-			if (IsInvoking ("SpeedReduce")) {
-				CancelInvoke ("SpeedReduce");
-				Invoke ("SpeedReduce", 3);
+			Invoke(nameof(SpeedReduce), 3);
+		}
+		else
+		{
+			if (IsInvoking(nameof(SpeedReduce)))
+			{
+				CancelInvoke(nameof(SpeedReduce));
+				Invoke(nameof(SpeedReduce), 3);
 			}
 		}
 	}
 
-	private void SpeedReduce() {
+	private void SpeedReduce()
+	{
 		speedBoost = false;
-
-		//smooth Follow
-		smoothFollow.TargetOffset += new Vector3(0, -increaseHeigh, increaseDistance);
-
-		//boost Envarinment Particles
-		boostSpeedParticles.SetActive (false);
-
-		//boost Player Particles
-		boostSpeedTrailLeft.SetActive (false);
-		boostSpeedTrailRight.SetActive (false);
-
-		//change spped game
-		ChangeSpeedGame ();
+		
+		smoothFollow.TargetOffset += new Vector3(0, -increaseHeight, increaseDistance);
+		
+		boostSpeedParticles.SetActive(false);
+		
+		boostSpeedTrailLeft.SetActive(false);
+		boostSpeedTrailRight.SetActive(false);
+		
+		ChangeSpeedGame();
 	}
 }

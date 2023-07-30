@@ -1,40 +1,42 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-[AddComponentMenu("Utility/Auto rotate rigit body")]
-
+[AddComponentMenu("Utility/Auto rotate rigid body")]
 public sealed class AutoRotateRigidBody : ExtendedCustomMonoBehaviour
 {
 	[Header("Settings")]
-	[SerializeField]
-	private Vector3 direction = Vector3.forward;
-	[SerializeField]
-	private float speed = 1f;
-
-	// main logic
-	public override void Init() {
-		// init base
-		base.Init ();
+	[SerializeField] private Vector3 direction = Vector3.forward;
+	[SerializeField] private float speed = 1f;
+	
+	public override void Init()
+	{
+		base.Init();
 
 		canControl = true;
-
-		// rotate object
-		UpdateVelocity ();
+		
+		UpdateVelocity();
 	}
 
-	public void UpdateVelocity() {
-		if (canControl) {
+	public void UpdateVelocity()
+	{
+		if (canControl)
+		{
 			myBody.angularVelocity = direction * speed;
 		}
 	}
 
-	public Vector3 Direction {
-		get { return direction; }
-		set { direction = value; }
+	public Vector3 Direction
+	{
+		get => direction;
+		set => direction = value;
 	}
 
-	public float Speed {
-		get { return speed; }
-		set { speed = value; UpdateVelocity (); }
+	public float Speed
+	{
+		get => speed;
+		set
+		{
+			speed = value;
+			UpdateVelocity();
+		}
 	}
 }

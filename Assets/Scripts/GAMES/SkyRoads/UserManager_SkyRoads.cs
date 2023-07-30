@@ -2,16 +2,15 @@
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-public class UserManager_SkyRoads : BaseUserManager {
-	
+public class UserManager_SkyRoads : BaseUserManager
+{
 	private int scoreBest;
 	private int timeBest;
 	private int asteroidBest;
-
-	// main logic
+	
 	public override void GetDefaultData()
 	{
-		base.GetDefaultData ();
+		base.GetDefaultData();
 
 		scoreBest = 0;
 		timeBest = 0;
@@ -47,25 +46,24 @@ public class UserManager_SkyRoads : BaseUserManager {
 	{
 		asteroidBest = num;
 	}
-
-	//save data
+	
 	private FileStream filePlayerData;
 
-	private void OpenPlayerDataFileForWrite() {
+	private void OpenPlayerDataFileForWrite()
+	{
 		filePlayerData = File.Create(Application.persistentDataPath + "/playerinfo.dat");
 	}
 
-	private void OpenPlayerDataFileForRead() {
-		filePlayerData = File.Open (Application.persistentDataPath + "/playerinfo.dat", FileMode.Open);
+	private void OpenPlayerDataFileForRead()
+	{
+		filePlayerData = File.Open(Application.persistentDataPath + "/playerinfo.dat", FileMode.Open);
 	}
 
-	public void ClosePlayerDateFile() {
-		filePlayerData.Close ();
+	public void ClosePlayerDateFile()
+	{
+		filePlayerData.Close();
 	}
-
-	/// <summary>
-	/// save player data in file with cripting, not use for Web-application (we can't write file)
-	/// </summary>
+	
 	public void SavePrivateDataPlayer()
 	{
 		BinaryFormatter bf = new BinaryFormatter();
@@ -85,30 +83,30 @@ public class UserManager_SkyRoads : BaseUserManager {
 		bf.Serialize(file, data);
 		file.Close();
 	}
-
-	/// <summary>
-	/// restore player data from cripting file.
-	/// </summary>
+	
 	public void LoadPrivateDataPlayer()
 	{
-		if (File.Exists (Application.persistentDataPath + "/playerinfo.dat")) {
-			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream file = File.Open (Application.persistentDataPath + "/playerinfo.dat", FileMode.Open);
+		if (File.Exists(Application.persistentDataPath + "/playerinfo.dat"))
+		{
+			BinaryFormatter bf = new BinaryFormatter();
+			FileStream file = File.Open(Application.persistentDataPath + "/playerinfo.dat", FileMode.Open);
 
-			PlayerData_SkyRoads data = (PlayerData_SkyRoads)bf.Deserialize (file);
+			PlayerData_SkyRoads data = (PlayerData_SkyRoads)bf.Deserialize(file);
 			playerName = data.playerName;
 
-			SetScore (data.score);
-			SetLevel (data.level);
-			SetHealth (data.helth);
+			SetScore(data.score);
+			SetLevel(data.level);
+			SetHealth(data.helth);
 
 			scoreBest = data.scoreBest;
 			timeBest = data.timeBest;
 			asteroidBest = data.asteroidBest;
 
-			file.Close ();
-		} else {
-			GetDefaultData ();
+			file.Close();
+		}
+		else
+		{
+			GetDefaultData();
 		}
 	}
 }

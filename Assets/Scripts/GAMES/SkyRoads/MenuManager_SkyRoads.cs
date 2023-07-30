@@ -2,262 +2,278 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class MenuManager_SkyRoads : BaseMenuController {
-
-	[SerializeField]
-	private bool overMenuUI = true;
+public class MenuManager_SkyRoads : BaseMenuController
+{
+	[SerializeField] private bool overMenuUI = true;
 
 	[Header("Game Settings")]
-	[SerializeField]
-	private string namePlayerVal = "Anonim";
-	[SerializeField]
-	private InputField namePlayer;
+	[SerializeField] private string namePlayerVal = "Anonim";
+
+	[SerializeField] private InputField namePlayer;
 
 	[Header("Window Result")]
-	[SerializeField]
-	private Text[] windowResultTextList;
+	[SerializeField] private Text[] windowResultTextList;
 
 	[Header("Developer")]
-	[SerializeField]
-	private GameObject[] developList;
+	[SerializeField] private GameObject[] developList;
 
 	[Header("Game Controller Ref")]
-	[SerializeField]
-	private GameController_SkyRoads gameController;
+	[SerializeField] private GameController_SkyRoads gameController;
 
-	[System.NonSerialized]
-	public static MenuManager_SkyRoads Instance;
-
-	// main event
-	void Awake() {
-  		// activate instance
-		if (Instance == null) {
+	[System.NonSerialized] public static MenuManager_SkyRoads Instance;
+	
+	private void Awake()
+	{
+		if (Instance == null)
+		{
 			Instance = this;
 
 			if (!gameController)
 				gameController = GameController_SkyRoads.Instance;
-		} else if (Instance != this) {
-			Destroy (gameObject);
+		}
+		else if (Instance != this)
+		{
+			Destroy(gameObject);
 		}
 	}
 
-	void LateUpdate() {
-		if (didInit) {
-			if (Input.GetKeyDown (KeyCode.Escape)) {
-				ClickEscapeEvent ();
+	private void LateUpdate()
+	{
+		if (didInit)
+		{
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				ClickEscapeEvent();
 			}
 		}
 	}
+	
+	protected override void RestoreOptionsPref()
+	{
+		base.RestoreOptionsPref();
 
-	// main logic
-	protected override void RestoreOptionsPref() {
-		base.RestoreOptionsPref ();
-
-		StartCoroutine ("RestoreOptionsPrefGame_Coroutine");
+		StartCoroutine(nameof(RestoreOptionsPrefGame_Coroutine));
 	}
 
-	private IEnumerator RestoreOptionsPrefGame_Coroutine() {
+	private IEnumerator RestoreOptionsPrefGame_Coroutine()
+	{
 		didInit = false;
-		bool prefubInit = false;
 
 		yield return null;
 
 		didInit = true;
 
 		yield return null;
-
-		// save init parametrs
-		if (prefubInit) {
-			SaveOptionsPrefs ();
-		}
-
-		yield return null;
-
-		//hide develop objects
-		HideDevelopList ();
+		
+		HideDevelopList();
 
 		yield return null;
 	}
 
 
-	private void ClickEscapeEvent() {
-		if (consoleWindowActive == -1) {
-			if (windowActive == -1) { //Main Menu
-				ExitGameConsoleWindow ();
+	private void ClickEscapeEvent()
+	{
+		if (consoleWindowActive == -1)
+		{
+			if (windowActive == -1)
+			{
+				ExitGameConsoleWindow();
 			}
 		}
 	}
 
-	protected override void ExitGame ()
+	protected override void ExitGame()
 	{
-		gameController.SaveDataLevel ();
+		gameController.SaveDataLevel();
 
-		gameController.PlayButtonSound ();
-		
-		base.ExitGame ();
+		gameController.PlayButtonSound();
+
+		base.ExitGame();
 	}
 
-	public void ExitGameConsoleWindow() {
-		ConsoleWinYesNo_ActionCloseGame ();
-		ActivateConsoleWindow (2);
-	}
-
-	protected override void SaveOptionsPrefs ()
+	public void ExitGameConsoleWindow()
 	{
-		base.SaveOptionsPrefs ();
-
-		StartCoroutine ("SaveOptionsPrefsGame_Coroutine");
+		ConsoleWinYesNo_ActionCloseGame();
+		ActivateConsoleWindow(2);
 	}
 
-	private IEnumerator SaveOptionsPrefsGame_Coroutine ()
+	protected override void SaveOptionsPrefs()
+	{
+		base.SaveOptionsPrefs();
+
+		StartCoroutine(nameof(SaveOptionsPrefsGame_Coroutine));
+	}
+
+	private IEnumerator SaveOptionsPrefsGame_Coroutine()
 	{
 		yield return null;
 
-		gameController.UpdateSoundVolume ();
-		gameController.UpdateMusicVolume ();
+		gameController.UpdateSoundVolume();
+		gameController.UpdateMusicVolume();
 
 		yield return null;
 	}
 
 	#region Events
-	protected override void ActivateMenuEvent() {
-		
+	protected override void ActivateMenuEvent()
+	{
+
 	}
 
-	protected override void DisActivateMenuEvent() {
-		//play sound button-click
-		gameController.PlaySoundByIndex (2, transform.position);
+	protected override void DisActivateMenuEvent()
+	{
+		gameController.PlaySoundByIndex(2, transform.position);
 	}
 
-	protected override void ChancheMenuEvent(int number) {
-		//play sound button-click
-		gameController.PlaySoundByIndex (1, transform.position);
+	protected override void ChangeMenuEvent(int number)
+	{
+		gameController.PlaySoundByIndex(1, transform.position);
 	}
 
-	protected override void ActivateWindowEvent() {
-		//play sound button-click
-		gameController.PlaySoundByIndex (1, transform.position);
+	protected override void ActivateWindowEvent()
+	{
+		gameController.PlaySoundByIndex(1, transform.position);
 	}
 
-	protected override void DisActivateWindowEvent() {
-		//play sound button-click
-		gameController.PlaySoundByIndex (2, transform.position);
+	protected override void DisActivateWindowEvent()
+	{
+		gameController.PlaySoundByIndex(2, transform.position);
 
-		if (windowActive == 1) {
+		if (windowActive == 1)
+		{
 
-		} else {
-			gameController.PauseGame ();
+		}
+		else
+		{
+			gameController.PauseGame();
 		}
 	}
 
-	protected override void ChancheWindowEvent(int number) {
-		if (windowActive == 1) {
+	protected override void ChangeWindowEvent(int number)
+	{
+		if (windowActive == 1)
+		{
 
-		} else {
-			gameController.ResumeGame ();
+		}
+		else
+		{
+			gameController.ResumeGame();
 		}
 	}
 
-	protected override void ActivateConsoleWEvent ()
+	protected override void ActivateConsoleWEvent()
 	{
-		//play sound button-click
-		gameController.PlaySoundByIndex (1, transform.position);
+		gameController.PlaySoundByIndex(1, transform.position);
 
-		gameController.PauseGame ();
+		gameController.PauseGame();
 	}
 
-	protected override void DisActivateConsoleWEvent ()
+	protected override void DisActivateConsoleWEvent()
 	{
-		//play sound button-click
-		gameController.PlaySoundByIndex (2, transform.position);
-		
-		gameController.ResumeGame ();
+		gameController.PlaySoundByIndex(2, transform.position);
+
+		gameController.ResumeGame();
 	}
 
-	protected override void ChancheConsoleWEvent(int number) {
+	protected override void ChangeConsoleWEvent(int number)
+	{
 
 	}
 	#endregion
-
-	// main part
-	private void OverUI() {
+	
+	private void OverUI()
+	{
 		overMenuUI = true;
 	}
 
-	private void OutUI() {
+	private void OutUI()
+	{
 		overMenuUI = false;
 	}
 
-	private void ActivateMenu_Level() {
-		ActivateMenu (1);
+	private void ActivateMenu_Level()
+	{
+		ActivateMenu(1);
 	}
 
-	private void ChangeGraficVal_PostEffect(float val) {
-//		if (gameController.CameraControlData != null) {
-//			gameController.CameraControlData.CollorCorrectionOn ();
-//			gameController.CameraControlData.BloomOn ();
-//			gameController.CameraControlData.VignetteOn ();
-//		}
-	}
-
-	// window Settings
-	public void ChangeNamePlayer(string val) {
+	#region WindowSettings
+	public void ChangeNamePlayer(string val)
+	{
 		namePlayerVal = val;
 
-		gameController.SetNamePlayer (val);
+		gameController.SetNamePlayer(val);
 
-		if (val == "TEST") {
+		if (val == "TEST")
+		{
 			gameController.DevelopState = true;
 
-			ShowDevelopList ();
-		} else {
+			ShowDevelopList();
+		}
+		else
+		{
 			gameController.DevelopState = false;
 
-			HideDevelopList ();
+			HideDevelopList();
 		}
 	}
 
-	public void SetNamePlayer(string val) {
+	public void SetNamePlayer(string val)
+	{
 		namePlayerVal = val;
 
-		if (namePlayer) {
+		if (namePlayer)
+		{
 			namePlayer.text = val;
 		}
 	}
+	#endregion
 
-	// window Result
-	public void WindowResultSetText(string stAdvice, int numText) {
-		if (numText < windowResultTextList.Length) {
-			if (windowResultTextList [numText]) {
-				windowResultTextList [numText].text = ConvertSpecTextChar (stAdvice);
+	#region windowResult
+	public void WindowResultSetText(string stAdvice, int numText)
+	{
+		if (numText < windowResultTextList.Length)
+		{
+			if (windowResultTextList[numText])
+			{
+				windowResultTextList[numText].text = ConvertSpecTextChar(stAdvice);
 			}
 		}
 	}
+	#endregion
 
-	// develop List
-	private void HideDevelopList() {
-		foreach (GameObject item in developList) {
-			if (item) {
-				if (item.activeSelf) {
-					item.SetActive (false);
+	#region DevelopList
+	private void HideDevelopList()
+	{
+		foreach (GameObject item in developList)
+		{
+			if (item)
+			{
+				if (item.activeSelf)
+				{
+					item.SetActive(false);
 				}
 			}
 		}
 	}
 
-	private void ShowDevelopList() {
-		foreach (GameObject item in developList) {
-			if (item) {
-				if (!item.activeSelf) {
-					item.SetActive (true);
+	private void ShowDevelopList()
+	{
+		foreach (GameObject item in developList)
+		{
+			if (item)
+			{
+				if (!item.activeSelf)
+				{
+					item.SetActive(true);
 				}
 			}
 		}
 	}
-
-	// actions
-	private void ConsoleWinYesNo_ActionCloseGame() {
-		ConsoleWinYesNo_SetTxt ("Do you want to Exit?");
-		ConsoleWinYesNo_SetYesAction (ExitGame);
+	#endregion
+	
+	private void ConsoleWinYesNo_ActionCloseGame()
+	{
+		ConsoleWinYesNo_SetTxt("Do you want to Exit?");
+		ConsoleWinYesNo_SetYesAction(ExitGame);
 	}
 }
