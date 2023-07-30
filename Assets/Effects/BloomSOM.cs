@@ -51,8 +51,8 @@ public class BloomSOM : MonoBehaviour
 		}
 	}
 	#endregion
-	
-	void Start()
+
+	private void Start()
 	{
 		if (!SystemInfo.supportsImageEffects)
 		{
