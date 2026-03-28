@@ -3,7 +3,7 @@ using UnityEngine;
 [AddComponentMenu("Base/Player Manager")]
 public class BasePlayerManager : MonoBehaviour
 {
-	[SerializeField] protected bool didInit = false;
+	[SerializeField] protected bool didInit;
 	
 	[SerializeField] protected BaseUserManager DataManager;
 	

@@ -193,7 +193,7 @@ public class BaseMenuController : MonoBehaviour
 		}
 	}
 
-	public void ChangeGraficVal(float val)
+	public void ChangeGraphicVal(float val)
 	{
 		graphicsSliderValue = val;
 
@@ -213,8 +213,6 @@ public class BaseMenuController : MonoBehaviour
 	}
 
 	#region Animations
-
-	//panels
 	private void PlayPanelAnim_Open(int number)
 	{
 		if (number < panelAnimations.Length)
@@ -320,8 +318,7 @@ public class BaseMenuController : MonoBehaviour
 			panelDisActivateAnimation.Close();
 		}
 	}
-
-	//window disActivate
+	
 	private void WindowDisActivate_Open()
 	{
 		if (windowDisActivateAnimation)
@@ -337,8 +334,7 @@ public class BaseMenuController : MonoBehaviour
 			windowDisActivateAnimation.Close();
 		}
 	}
-
-	//consoleWindows disActivate
+	
 	private void ConsoleWindowDisActivate_Open()
 	{
 		if (consoleWindowDisActivateAnimation)
@@ -354,8 +350,7 @@ public class BaseMenuController : MonoBehaviour
 			consoleWindowDisActivateAnimation.Close();
 		}
 	}
-
-	//startGame window
+	
 	private void PlayWindowStartGameAnim_Open()
 	{
 		if (windowStartGameAnimation)
@@ -387,8 +382,7 @@ public class BaseMenuController : MonoBehaviour
 			}
 		}
 	}
-
-	//advice window
+	
 	private void PlayWindowAdviceAnim_Open()
 	{
 		if (windowAdviceAnimation)
@@ -421,13 +415,12 @@ public class BaseMenuController : MonoBehaviour
 
 					DisActivateAdviceWEvent();
 
-					Invoke("WindowAdviceClearText", 0.2f);
+					Invoke(nameof(WindowAdviceClearText), 0.2f);
 				}
 			}
 		}
 	}
-
-	//inform window
+	
 	private void PlayWindowInformAnim_Open()
 	{
 		if (windowInformAnimation)
@@ -467,71 +460,56 @@ public class BaseMenuController : MonoBehaviour
 	#endregion
 
 	#region Events
-
-	// Events for use
 	protected virtual void ActivateMenuEvent()
 	{
-
 	}
 
 	protected virtual void DisActivateMenuEvent()
 	{
-
 	}
 
 	protected virtual void ChangeMenuEvent(int number)
 	{
-
 	}
 
 	protected virtual void ActivateWindowEvent()
 	{
-
 	}
 
 	protected virtual void DisActivateWindowEvent()
 	{
-
 	}
 
 	protected virtual void ChangeWindowEvent(int number)
 	{
-
 	}
 
 	protected virtual void ActivateConsoleWEvent()
 	{
-
 	}
 
 	protected virtual void DisActivateConsoleWEvent()
 	{
-
 	}
 
 	protected virtual void ChangeConsoleWEvent(int number)
 	{
-
 	}
 
 	protected virtual void ActivateAdviceWEvent()
 	{
-
 	}
 
 	protected virtual void DisActivateAdviceWEvent()
 	{
-
 	}
 
 	protected virtual void ActivateInformWEvent()
 	{
-
 	}
 
 	protected virtual void DisActivateInformWEvent()
 	{
-
 	}
 	#endregion
 
@@ -628,10 +606,7 @@ public class BaseMenuController : MonoBehaviour
 	#endregion
 
 	#region Windows
-	public int WindowActive
-	{
-		get { return windowActive; }
-	}
+	public int WindowActive => windowActive;
 
 	public void ActivateWindow(int number)
 	{
@@ -684,10 +659,7 @@ public class BaseMenuController : MonoBehaviour
 	#endregion
 
 	#region ConsoleWindows
-	public int ConsoleWindowActive
-	{
-		get { return consoleWindowActive; }
-	}
+	public int ConsoleWindowActive => consoleWindowActive;
 
 	public void ActivateConsoleWindow(int number)
 	{

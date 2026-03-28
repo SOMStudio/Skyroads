@@ -37,8 +37,7 @@
 	{
 		DataManager_SkyRoads.SetIsFinished(false);
 	}
-
-	//
+	
 	public void SetPlayerDefaultData()
 	{
 		if (!didInit)
